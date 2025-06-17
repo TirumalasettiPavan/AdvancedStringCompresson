@@ -23,7 +23,7 @@ public class AdvancedStringCompression {
         return result.toString();
     }
 
-    // ✅ Optimized Second Compressor
+    // Optimized Second Compressor
     public static String secondCompressor(String s) {
         StringBuilder letters = new StringBuilder();
         StringBuilder counts = new StringBuilder();
@@ -108,7 +108,7 @@ public class AdvancedStringCompression {
     public static void main(String[] args) {
         String[] testInputs = {
                 "aaaabbcddddd",      // normal
-                "aabbccc",             // mixed
+                "aabbcc",             // mixed
                 "a20b20c1a4",        // long counts
                 "abc",               // no repeats
                 "a",                 // single character
