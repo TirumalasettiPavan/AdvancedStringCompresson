@@ -2,8 +2,8 @@ package org.example.stringCompression;
 
 public class AdvancedStringCompression {
 
-    // First compressor: groups characters and counts repeats
-    public static String firstCompressor(String s) {
+    // First compression method is to compress the string in basic level
+    public static String BasicCompression(String s) {
         StringBuilder result = new StringBuilder();
         int i = 0;
 
@@ -23,8 +23,8 @@ public class AdvancedStringCompression {
         return result.toString();
     }
 
-    // Optimized Second Compressor
-    public static String secondCompressor(String s) {
+    // Second compression method is to compress the string in advanced level
+    public static String advancedCompression(String s) {
         StringBuilder letters = new StringBuilder();
         StringBuilder counts = new StringBuilder();
         int i = 0;
@@ -62,7 +62,7 @@ public class AdvancedStringCompression {
             }
         }
 
-        // If all counts are same and greater than 1, compress like abcd2
+        // counts are same it will concat and return count if count > 1 for example a2b2 it will concat ab2
         if (allSame && !commonCount.equals("1")) {
             return letters.toString() + commonCount;
         }
@@ -79,8 +79,8 @@ public class AdvancedStringCompression {
         return result.toString();
     }
 
-    // Decompressor: reconstructs original string from second compressor
-    public static String decompressor(String s) {
+    // Decompressor: it will decode the compression string to normal form of the string
+    public static String decompression(String s) {
         StringBuilder result = new StringBuilder();
         int i = 0;
 
@@ -104,30 +104,31 @@ public class AdvancedStringCompression {
         return result.toString();
     }
 
-    // === TEST CASES ===
+    // calling basic & advanced ,decompression method
     public static void main(String[] args) {
+        // string array to text all variety of inputs
         String[] testInputs = {
-                "aaaabbcddddd",      // normal
-                "aabbcc",             // mixed
-                "a20b20c1a4",        // long counts
-                "abc",               // no repeats
-                "a",                 // single character
-                "aabbccdd",          // pairs → abcd2
-                "zzzzzzzzzz",        // long repeat of one char
-                "aaabbbccdd"         // uneven → a3b3c2d2
+                "aaaabbcddddd",
+                "aabbcc",
+                "a20b20c1a4",
+                "abc",
+                "a",
+                "aabbccdd",
+                "zzzzzzzzzz",
+                "aaabbbccdd"
         };
 
         for (String input : testInputs) {
             System.out.println("Original String        : " + input);
 
-            String first = firstCompressor(input);
-            System.out.println("First Compression  : " + first);
+            String first = BasicCompression(input);
+            System.out.println("Basic compression form of string  : " + first);
 
-            String second = secondCompressor(first);
-            System.out.println("Second Compression : " + second);
+            String second = advancedCompression(first);
+            System.out.println("Advanced compression form of string : " + second);
 
-            String decompressed = decompressor(second);
-            System.out.println("Decompression    : " + decompressed);
+            String decompressed = decompression(second);
+            System.out.println("decompression of compressed string into normal form     : " + decompressed);
 
             System.out.println("--------------------------------------------");
         }
