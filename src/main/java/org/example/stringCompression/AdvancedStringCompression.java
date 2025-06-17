@@ -1,6 +1,6 @@
 package org.example.stringCompression;
 
-public class AdvancedStringCompresson {
+public class AdvancedStringCompression {
 
     // First compressor: groups characters and counts repeats
     public static String firstCompressor(String s) {
