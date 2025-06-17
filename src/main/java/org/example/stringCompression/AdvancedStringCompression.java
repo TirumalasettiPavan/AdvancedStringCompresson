@@ -23,25 +23,56 @@ public class AdvancedStringCompression {
         return result.toString();
     }
 
-    // Second compressor: optimizes output from first compressor
+    // ✅ Optimized Second Compressor
     public static String secondCompressor(String s) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder letters = new StringBuilder();
+        StringBuilder counts = new StringBuilder();
         int i = 0;
+        boolean allSame = true;
+        String commonCount = null;
 
         while (i < s.length()) {
             char ch = s.charAt(i);
-            result.append(ch);  // always keep first occurrence
+            letters.append(ch);
             i++;
 
             if (i < s.length() && s.charAt(i) == ch) {
-                // repeated char with count, skip the duplicate char
-                i++; // skip second char
-                StringBuilder count = new StringBuilder();
+                i++; // skip duplicate char
+                StringBuilder countStr = new StringBuilder();
                 while (i < s.length() && Character.isDigit(s.charAt(i))) {
-                    count.append(s.charAt(i));
+                    countStr.append(s.charAt(i));
                     i++;
                 }
-                result.append(count); // add count
+
+                String thisCount = countStr.toString();
+                counts.append(thisCount);
+
+                if (commonCount == null) {
+                    commonCount = thisCount;
+                } else if (!commonCount.equals(thisCount)) {
+                    allSame = false;
+                }
+            } else {
+                counts.append("1");
+                if (commonCount == null) {
+                    commonCount = "1";
+                } else if (!commonCount.equals("1")) {
+                    allSame = false;
+                }
+            }
+        }
+
+        // If all counts are same and greater than 1, compress like abcd2
+        if (allSame && !commonCount.equals("1")) {
+            return letters.toString() + commonCount;
+        }
+
+        // Otherwise return like a2b2c1d4
+        StringBuilder result = new StringBuilder();
+        for (int j = 0; j < letters.length(); j++) {
+            result.append(letters.charAt(j));
+            if (!counts.substring(j, j + 1).equals("1")) {
+                result.append(counts.charAt(j));
             }
         }
 
@@ -77,28 +108,28 @@ public class AdvancedStringCompression {
     public static void main(String[] args) {
         String[] testInputs = {
                 "aaaabbcddddd",      // normal
-                "aabcc",             // mixed
+                "aabbccc",             // mixed
                 "a20b20c1a4",        // long counts
                 "abc",               // no repeats
                 "a",                 // single character
-                "aabbccdd",          // pairs
-                "zzzzzzzzzz"         // long repeat of one char
+                "aabbccdd",          // pairs → abcd2
+                "zzzzzzzzzz",        // long repeat of one char
+                "aaabbbccdd"         // uneven → a3b3c2d2
         };
 
         for (String input : testInputs) {
-
-            System.out.println("Original        : " + input);
+            System.out.println("Original String        : " + input);
 
             String first = firstCompressor(input);
-            System.out.println("First Compress  : " + first);
+            System.out.println("First Compression  : " + first);
 
             String second = secondCompressor(first);
-            System.out.println("Second Compress : " + second);
+            System.out.println("Second Compression : " + second);
 
             String decompressed = decompressor(second);
-            System.out.println("Decompressed    : " + decompressed);
-            System.out.println("-----------------------------");
+            System.out.println("Decompression    : " + decompressed);
 
+            System.out.println("--------------------------------------------");
         }
     }
 }
